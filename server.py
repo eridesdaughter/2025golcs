@@ -5,9 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-def cuadricula():
-    filas = 5
-    columnas = 5
+def cuadricula(filas, columnas):
     tablero = [[random.randint(0, 1) for _ in range(columnas)] for _ in range(filas)]
     return tablero
 
@@ -28,10 +26,8 @@ def contarvecinos(tablero, fila, columna):
     return vecinos_vivos
 
 
-tablero = cuadricula()
-
-@app.route("/")
 def siguiente_generacion():
+    global tablero
     filas = len(tablero)
     columnas = len(tablero[0])
     nuevo_tablero = [[0 for _ in range(columnas)] for _ in range(filas)]
@@ -54,3 +50,22 @@ def siguiente_generacion():
                     nuevo_tablero[i][j] = 0  # sigue muerta
 
     return nuevo_tablero
+
+
+tablero = cuadricula(30, 30)
+
+
+@app.route("/nuevo-tablero/<ancho>/<alto>")
+def nuevo_tablero(ancho, alto):
+
+    global tablero
+    tablero = cuadricula(int(ancho), int(alto))
+    return "OK"
+
+
+@app.route("/")
+def llama_siguiente_gen():
+    global tablero
+
+    tablero = siguiente_generacion()
+    return tablero
