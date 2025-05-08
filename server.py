@@ -69,3 +69,8 @@ def llama_siguiente_gen():
 
     tablero = siguiente_generacion()
     return tablero
+
+
+if __name__ == '__main__':
+    # Si se ejecuta server.py, entonces inicia el servidor Flask
+    app.run(host='0.0.0.0', port=5000)
