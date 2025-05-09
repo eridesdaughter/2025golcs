@@ -1,12 +1,19 @@
 import os
-import random
-import time
-from server import siguiente_generacion, tablero
 import requests
 
+
+def mostrar_tablero(tablero):
+    os.system('cls' if os.name == 'nt' else 'clear')  # limpia pantalla
+    for fila in tablero:
+        print("".join("█" if celda else " " for celda in fila))
+
+
+r = requests.get('http://192.168.1.10:5000/nuevo-tablero/10/15')
+
+
+
+
+
 r = requests.get('http://192.168.1.10:5000')
-
-
 datos = r.json()
-
-print(datos)
+mostrar_tablero(datos)
